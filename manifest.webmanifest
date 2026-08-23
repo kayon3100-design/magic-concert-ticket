@@ -1,0 +1,19 @@
+{
+  "name": "Magic Concert Archive",
+  "short_name": "Magic Ticket",
+  "description": "A personal concert ticket archive.",
+  "start_url": "./?source=pwa",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#07070b",
+  "theme_color": "#08070d",
+  "icons": [
+    {
+      "src": "./magic-ticket-icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
