@@ -1,15 +1,17 @@
-# Magic Concert Archive
+# Magic Concert Archive V2
 
-Bản GitHub Pages đơn giản dành cho upload bằng điện thoại.
+Public concert-ticket gallery with an Add Ticket form.
 
-Tất cả file để cùng một cấp, không cần thư mục `assets`:
+## Current behavior
+- The 3 starter tickets are bundled with the site.
+- If `config.js` is blank, new tickets are stored only in that browser (demo/local mode).
+- Connect Supabase once to make new tickets persistent and visible to every visitor.
 
-- `index.html`
-- `styles.css`
-- `app.js`
-- `ticket-pink.jpg`
-- `ticket-anh-trai.jpg`
-- `ticket-phung-khanh-linh.jpg`
+## Supabase setup
+1. Create a free Supabase project.
+2. In SQL Editor run `supabase-setup.sql`.
+3. Project Settings → API: copy Project URL and anon/public key.
+4. Paste both values into `config.js`.
+5. Upload/replace `index.html`, `app.js`, `styles.css`, `config.js` on your GitHub Pages repo.
 
-## GitHub Pages
-Upload toàn bộ các file trên vào root của repository, commit, sau đó vào **Settings → Pages → Deploy from a branch → main → /(root)**.
+The site then uploads ticket images to the public `ticket-images` bucket and stores metadata in the `tickets` table.

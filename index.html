@@ -18,11 +18,11 @@
     <div class="dust" id="dust" aria-hidden="true"></div>
 
     <header class="topbar">
-      <div class="brand">
-        <span class="brand-mark">✦</span>
-        <span>Magic Concert Archive</span>
+      <div class="brand"><span class="brand-mark">✦</span><span>Magic Concert Archive</span></div>
+      <div class="top-actions">
+        <div class="counter"><span id="ticketCount">0</span> memories</div>
+        <button class="add-ticket-btn" id="openAddTicket">＋ Add Ticket</button>
       </div>
-      <div class="counter"><span id="ticketCount">3</span> memories</div>
     </header>
 
     <main class="library" id="library">
@@ -37,40 +37,18 @@
       <div class="book-glow book-glow-a" aria-hidden="true"></div>
       <div class="book-glow book-glow-b" aria-hidden="true"></div>
 
-      <section class="card-field" aria-label="Concert tickets">
-        <button class="ticket-card card-one" data-ticket="0" aria-label="Mở vé Let's Never Give A...">
-          <span class="card-aura"></span>
-          <span class="card-frame"><img src="./ticket-pink.jpg" alt="Concert ticket, pink artwork" /></span>
-          <span class="card-caption"><b>27 Aug</b><small>Party Night</small></span>
-        </button>
-
-        <button class="ticket-card card-two" data-ticket="1" aria-label="Mở vé Anh Trai Vượt Ngàn Chông Gai">
-          <span class="card-aura"></span>
-          <span class="card-frame"><img src="./ticket-anh-trai.jpg" alt="Concert ticket Anh Trai Vượt Ngàn Chông Gai 2026" /></span>
-          <span class="card-caption"><b>17 Oct</b><small>Anh Trai Vượt Ngàn Chông Gai</small></span>
-        </button>
-
-        <button class="ticket-card card-three" data-ticket="2" aria-label="Mở vé Giữa Một Vạn Tour">
-          <span class="card-aura"></span>
-          <span class="card-frame"><img src="./ticket-phung-khanh-linh.jpg" alt="Concert ticket Giữa Một Vạn Tour, Phùng Khánh Linh" /></span>
-          <span class="card-caption"><b>17 Oct</b><small>Giữa Một Vạn Tour</small></span>
-        </button>
-      </section>
-
+      <section class="card-field" id="cardField" aria-label="Concert tickets"></section>
       <div class="hint" aria-hidden="true"><span>↖</span> move to explore</div>
     </main>
   </div>
 
   <div class="modal" id="ticketModal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
-    <button class="modal-backdrop" data-close aria-label="Đóng"></button>
+    <button class="modal-backdrop" data-close-ticket aria-label="Đóng"></button>
     <article class="memory-panel">
-      <button class="close-btn" data-close aria-label="Đóng">×</button>
-      <div class="memory-image-wrap">
-        <img id="modalImage" alt="" />
-        <div class="image-shine"></div>
-      </div>
+      <button class="close-btn" data-close-ticket aria-label="Đóng">×</button>
+      <div class="memory-image-wrap"><img id="modalImage" alt="" /><div class="image-shine"></div></div>
       <div class="memory-copy">
-        <p class="eyebrow" id="modalEyebrow">CONCERT MEMORY</p>
+        <p class="eyebrow">CONCERT MEMORY</p>
         <h2 id="modalTitle"></h2>
         <p class="memory-date" id="modalDate"></p>
         <p class="memory-note" id="modalNote"></p>
@@ -79,6 +57,39 @@
     </article>
   </div>
 
+  <div class="modal" id="addModal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="addTitle">
+    <button class="modal-backdrop" data-close-add aria-label="Đóng"></button>
+    <article class="add-panel">
+      <button class="close-btn" data-close-add aria-label="Đóng">×</button>
+      <div class="add-heading">
+        <p class="eyebrow">NEW MEMORY</p>
+        <h2 id="addTitle">Add a ticket</h2>
+        <p>Chọn ảnh vé và nhập vài thông tin. Tấm vé mới sẽ tự xuất hiện trong thư viện.</p>
+      </div>
+      <form id="ticketForm" class="ticket-form">
+        <label class="upload-box">
+          <input id="ticketImage" type="file" accept="image/*" required />
+          <span id="uploadLabel">＋ Chọn ảnh vé</span>
+          <img id="imagePreview" alt="Preview" hidden />
+        </label>
+        <div class="form-grid">
+          <label><span>Tên concert *</span><input id="ticketTitle" type="text" maxlength="120" placeholder="Ví dụ: Anh Trai Vượt Ngàn Chông Gai" required /></label>
+          <label><span>Ngày</span><input id="ticketDate" type="date" /></label>
+          <label class="wide"><span>Địa điểm</span><input id="ticketLocation" type="text" maxlength="120" placeholder="The Global City, HCMC" /></label>
+          <label class="wide"><span>Ghi chú</span><textarea id="ticketNote" rows="3" maxlength="500" placeholder="Một chút ký ức của đêm diễn..."></textarea></label>
+          <label class="wide"><span>Tags</span><input id="ticketTags" type="text" maxlength="160" placeholder="Concert, 2026, HCMC" /></label>
+        </div>
+        <div class="form-status" id="formStatus"></div>
+        <div class="form-actions">
+          <button type="button" class="ghost-btn" data-close-add>Cancel</button>
+          <button type="submit" class="save-btn" id="saveTicket">Save Ticket ✦</button>
+        </div>
+      </form>
+    </article>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="./config.js"></script>
   <script src="./app.js"></script>
 </body>
 </html>
