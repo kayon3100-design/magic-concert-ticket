@@ -9,12 +9,14 @@ const hasSupabase = Boolean(config.supabaseUrl && config.supabaseAnonKey && wind
 const db = hasSupabase ? window.supabase.createClient(config.supabaseUrl, config.supabaseAnonKey) : null;
 let tickets = [];
 let previewUrl = "";
+let activeTicket = null;
 
 const $ = id => document.getElementById(id);
 const library = $("library"), cardField = $("cardField"), ticketCount = $("ticketCount"), dust = $("dust");
 const ticketModal = $("ticketModal"), addModal = $("addModal");
 const modalImage = $("modalImage"), modalTitle = $("modalTitle"), modalDate = $("modalDate"), modalNote = $("modalNote"), modalTags = $("modalTags");
 const ticketForm = $("ticketForm"), imageInput = $("ticketImage"), imagePreview = $("imagePreview"), uploadLabel = $("uploadLabel"), formStatus = $("formStatus"), saveTicket = $("saveTicket");
+const deleteTicketBtn = $("deleteTicketBtn"), deleteStatus = $("deleteStatus");
 
 function escapeHtml(value = "") {
   return String(value).replace(/[&<>'"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));
@@ -50,7 +52,7 @@ async function loadTickets() {
   if (hasSupabase) {
     const { data, error } = await db.from("tickets").select("*").order("created_at", { ascending: true });
     if (!error && data) {
-      const remote = data.map(t => ({ id:t.id, title:t.title, date:t.event_date || "", location:t.location || "", image:t.image_url, note:t.note || "", tags:t.tags || [] }));
+      const remote = data.map(t => ({ id:t.id, title:t.title, date:t.event_date || "", location:t.location || "", image:t.image_url, note:t.note || "", tags:t.tags || [], remote:true }));
       tickets = [...seedTickets, ...remote];
     } else {
       console.error(error); tickets = [...seedTickets];
@@ -63,11 +65,14 @@ async function loadTickets() {
 
 function openTicket(index) {
   const t = tickets[index]; if (!t) return;
+  activeTicket = t;
   modalImage.src = t.image; modalImage.alt = t.title; modalTitle.textContent = t.title; modalDate.textContent = fullDate(t); modalNote.textContent = t.note || "Một ký ức concert được lưu trong thư viện.";
   modalTags.innerHTML = (t.tags || []).map(tag => `<span>${escapeHtml(tag)}</span>`).join("");
+  deleteStatus.textContent = "";
+  deleteTicketBtn.hidden = !t.remote;
   ticketModal.classList.add("open"); ticketModal.setAttribute("aria-hidden", "false"); document.body.classList.add("modal-open");
 }
-function closeTicket() { ticketModal.classList.remove("open"); ticketModal.setAttribute("aria-hidden", "true"); document.body.classList.remove("modal-open"); }
+function closeTicket() { ticketModal.classList.remove("open"); ticketModal.setAttribute("aria-hidden", "true"); document.body.classList.remove("modal-open"); activeTicket = null; deleteStatus.textContent = ""; }
 function openAdd() { addModal.classList.add("open"); addModal.setAttribute("aria-hidden", "false"); document.body.classList.add("modal-open"); formStatus.textContent = hasSupabase ? "" : "Demo mode: vé mới hiện trên thiết bị này. Kết nối Supabase để mọi người cùng thấy."; }
 function closeAdd() { addModal.classList.remove("open"); addModal.setAttribute("aria-hidden", "true"); document.body.classList.remove("modal-open"); }
 
@@ -116,6 +121,42 @@ async function createTicket(event) {
   } finally { saveTicket.disabled = false; saveTicket.textContent = "Save Ticket ✦"; }
 }
 ticketForm.addEventListener("submit", createTicket);
+
+function storagePathFromPublicUrl(url = "") {
+  const marker = `/storage/v1/object/public/${config.bucket || "ticket-images"}/`;
+  const idx = url.indexOf(marker);
+  if (idx === -1) return null;
+  return decodeURIComponent(url.slice(idx + marker.length));
+}
+
+async function deleteActiveTicket() {
+  const t = activeTicket;
+  if (!t || !t.remote) return;
+  if (!confirm(`Xóa vé “${t.title}”? Hành động này không thể hoàn tác.`)) return;
+  deleteTicketBtn.disabled = true;
+  deleteTicketBtn.textContent = "Deleting…";
+  deleteStatus.textContent = "";
+  try {
+    const { error: rowError } = await db.from("tickets").delete().eq("id", t.id);
+    if (rowError) throw rowError;
+    const path = storagePathFromPublicUrl(t.image);
+    if (path) {
+      const { error: storageError } = await db.storage.from(config.bucket || "ticket-images").remove([path]);
+      if (storageError) console.warn("Ticket row deleted, but image cleanup failed:", storageError);
+    }
+    closeTicket();
+    await loadTickets();
+  } catch (error) {
+    console.error(error);
+    deleteStatus.textContent = `Không xóa được: ${error.message || "unknown error"}`;
+  } finally {
+    deleteTicketBtn.disabled = false;
+    deleteTicketBtn.textContent = "Delete Ticket";
+  }
+}
+
+deleteTicketBtn.addEventListener("click", deleteActiveTicket);
+
 
 if (window.matchMedia("(pointer:fine)").matches) {
   window.addEventListener("pointermove", event => {
