@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <defs>
+    <radialGradient id="bg" cx="50%" cy="38%" r="72%">
+      <stop offset="0" stop-color="#173d31"/>
+      <stop offset="0.48" stop-color="#11101a"/>
+      <stop offset="1" stop-color="#07070b"/>
+    </radialGradient>
+    <linearGradient id="ticket" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#efe2bb"/>
+      <stop offset="1" stop-color="#b99a5b"/>
+    </linearGradient>
+    <filter id="glow" x="-60%" y="-60%" width="220%" height="220%">
+      <feGaussianBlur stdDeviation="12" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+  <rect width="512" height="512" rx="112" fill="url(#bg)"/>
+  <circle cx="256" cy="255" r="150" fill="none" stroke="#45f0a5" stroke-opacity=".16" stroke-width="4"/>
+  <g transform="rotate(-8 256 256)">
+    <path d="M118 188c26 0 26-44 0-44v-20h276v20c-26 0-26 44 0 44v136c-26 0-26 44 0 44v20H118v-20c26 0 26-44 0-44z" fill="url(#ticket)"/>
+    <path d="M182 124v264" stroke="#1a1720" stroke-opacity=".34" stroke-width="3" stroke-dasharray="10 12"/>
+    <path d="M229 214h116M229 254h90M229 294h126" stroke="#29232b" stroke-width="10" stroke-linecap="round" opacity=".7"/>
+  </g>
+  <g filter="url(#glow)" fill="#45f0a5">
+    <path d="M132 95l8 19 19 8-19 8-8 19-8-19-19-8 19-8z"/>
+    <path d="M398 363l7 17 17 7-17 7-7 17-7-17-17-7 17-7z" opacity=".85"/>
+  </g>
+</svg>
