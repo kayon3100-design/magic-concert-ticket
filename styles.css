@@ -371,3 +371,13 @@ body.modal-open { overflow: hidden; }
 @media(prefers-reduced-motion:reduce){
   .stage-intro{display:none}
 }
+
+
+/* V4.2: curtain motion is controlled by the inline Web Animations controller. */
+.stage-intro{
+  animation:none !important;
+  transition:opacity .25s ease !important;
+}
+.curtain-left,.curtain-right,.curtain-seam,.stage-beam{
+  animation:none !important;
+}

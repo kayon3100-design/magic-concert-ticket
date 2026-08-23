@@ -9,15 +9,15 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="./styles.css" />
+  <link rel="stylesheet" href="./styles.css?v=42" />
 </head>
 <body>
 
-  <div class="stage-intro" aria-hidden="true">
-    <div class="stage-beam"></div>
-    <div class="curtain curtain-left"></div>
-    <div class="curtain curtain-right"></div>
-    <div class="curtain-seam"></div>
+  <div class="stage-intro" id="stageIntro" aria-hidden="true">
+    <div class="stage-beam" id="stageBeam"></div>
+    <div class="curtain curtain-left" id="curtainLeft"></div>
+    <div class="curtain curtain-right" id="curtainRight"></div>
+    <div class="curtain-seam" id="curtainSeam"></div>
   </div>
   <div class="app-shell">
     <div class="ambient ambient-a"></div>
@@ -100,7 +100,81 @@
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <script>
+  (() => {
+    const removeIntro = () => {
+      const intro = document.getElementById('stageIntro');
+      if (!intro) return;
+      intro.style.opacity = '0';
+      intro.style.pointerEvents = 'none';
+      setTimeout(() => intro.remove(), 260);
+    };
+
+    window.addEventListener('DOMContentLoaded', () => {
+      const intro = document.getElementById('stageIntro');
+      const left = document.getElementById('curtainLeft');
+      const right = document.getElementById('curtainRight');
+      const seam = document.getElementById('curtainSeam');
+      const beam = document.getElementById('stageBeam');
+
+      if (!intro || !left || !right) return;
+
+      /* Guaranteed fallback: the curtain can never trap the page. */
+      const failsafe = setTimeout(removeIntro, 3600);
+
+      setTimeout(() => {
+        try {
+          left.getAnimations().forEach(a => a.cancel());
+          right.getAnimations().forEach(a => a.cancel());
+          seam?.getAnimations().forEach(a => a.cancel());
+          beam?.getAnimations().forEach(a => a.cancel());
+
+          left.animate(
+            [
+              { transform: 'translateX(0) scaleX(1)' },
+              { transform: 'translateX(-18%) scaleX(.98)', offset: .28 },
+              { transform: 'translateX(-98%) scaleX(.88)' }
+            ],
+            { duration: 1850, easing: 'cubic-bezier(.62,.02,.24,1)', fill: 'forwards' }
+          );
+
+          right.animate(
+            [
+              { transform: 'translateX(0) scaleX(1)' },
+              { transform: 'translateX(18%) scaleX(.98)', offset: .28 },
+              { transform: 'translateX(98%) scaleX(.88)' }
+            ],
+            { duration: 1850, easing: 'cubic-bezier(.62,.02,.24,1)', fill: 'forwards' }
+          );
+
+          seam?.animate(
+            [{ opacity: 1 }, { opacity: .95, offset: .35 }, { opacity: 0 }],
+            { duration: 1650, easing: 'ease-out', fill: 'forwards' }
+          );
+
+          beam?.animate(
+            [
+              { transform: 'translateX(-50%) scaleX(.03)', opacity: .35 },
+              { transform: 'translateX(-50%) scaleX(1.9)', opacity: .95 }
+            ],
+            { duration: 1750, easing: 'ease-out', fill: 'forwards' }
+          );
+
+          setTimeout(() => {
+            clearTimeout(failsafe);
+            removeIntro();
+          }, 2050);
+        } catch (err) {
+          clearTimeout(failsafe);
+          removeIntro();
+        }
+      }, 780);
+    });
+  })();
+  </script>
+
   <script src="./config.js"></script>
-  <script src="./app.js"></script>
+  <script src="./app.js?v=42"></script>
 </body>
 </html>
