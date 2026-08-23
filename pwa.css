@@ -2,7 +2,8 @@
 .pwa-dock{display:none}
 html.pwa-standalone,html.pwa-standalone body{background:#07070b;overscroll-behavior-y:none}
 html.pwa-standalone body{padding-bottom:calc(76px + env(safe-area-inset-bottom))}
-html.pwa-standalone .stage-intro{display:none!important}
+/* Keep the same curtain intro inside the installed app. */
+html.pwa-standalone .stage-intro{display:block}
 html.pwa-standalone .app-shell{min-height:100svh;overflow:visible}
 html.pwa-standalone .topbar{position:sticky;top:0;height:60px;padding:0 16px;z-index:60;background:rgba(7,7,11,.82);backdrop-filter:blur(18px);border-bottom:1px solid rgba(69,240,165,.12)}
 html.pwa-standalone .brand{font-size:12px}
