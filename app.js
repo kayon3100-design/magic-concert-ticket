@@ -113,28 +113,10 @@ async function createTicket(event) {
       const { data: publicData } = db.storage.from(config.bucket || "ticket-images").getPublicUrl(path);
       const { error: insertError } = await db.from("tickets").insert({ ...data, image_url: publicData.publicUrl });
       if (insertError) throw insertError;
-      await const stageIntro = $("stageIntro");
-if (stageIntro) {
-  requestAnimationFrame(() => stageIntro.classList.add("opening"));
-  window.setTimeout(() => {
-    stageIntro.classList.add("finished");
-    document.body.classList.add("archive-revealed");
-  }, 2450);
-}
-
-loadTickets();
+      await loadTickets();
     } else {
       const image = await fileToDataUrl(file);
-      const list = localTickets(); list.push({ id: crypto.randomUUID(), title:data.title, date:data.event_date || "", location:data.location, image, note:data.note, tags:data.tags }); saveLocal(list); await const stageIntro = $("stageIntro");
-if (stageIntro) {
-  requestAnimationFrame(() => stageIntro.classList.add("opening"));
-  window.setTimeout(() => {
-    stageIntro.classList.add("finished");
-    document.body.classList.add("archive-revealed");
-  }, 2450);
-}
-
-loadTickets();
+      const list = localTickets(); list.push({ id: crypto.randomUUID(), title:data.title, date:data.event_date || "", location:data.location, image, note:data.note, tags:data.tags }); saveLocal(list); await loadTickets();
     }
     ticketForm.reset(); imagePreview.hidden = true; uploadLabel.textContent = "＋ Chọn ảnh vé"; formStatus.textContent = "Đã lưu ✦";
     setTimeout(closeAdd, 500);
@@ -167,16 +149,7 @@ async function deleteActiveTicket() {
       if (storageError) console.warn("Ticket row deleted, but image cleanup failed:", storageError);
     }
     closeTicket();
-    await const stageIntro = $("stageIntro");
-if (stageIntro) {
-  requestAnimationFrame(() => stageIntro.classList.add("opening"));
-  window.setTimeout(() => {
-    stageIntro.classList.add("finished");
-    document.body.classList.add("archive-revealed");
-  }, 2450);
-}
-
-loadTickets();
+    await loadTickets();
   } catch (error) {
     console.error(error);
     deleteStatus.textContent = `Không xóa được: ${error.message || "unknown error"}`;
@@ -197,13 +170,4 @@ if (window.matchMedia("(pointer:fine)").matches) {
   }, { passive:true });
 }
 for (let i=0;i<42;i++){const p=document.createElement("i");p.style.left=`${Math.random()*100}%`;p.style.top=`${Math.random()*110}%`;p.style.animationDuration=`${8+Math.random()*15}s`;p.style.animationDelay=`${-Math.random()*16}s`;p.style.setProperty("--drift",`${-40+Math.random()*80}px`);p.style.opacity=`${.15+Math.random()*.55}`;dust.appendChild(p);}
-const stageIntro = $("stageIntro");
-if (stageIntro) {
-  requestAnimationFrame(() => stageIntro.classList.add("opening"));
-  window.setTimeout(() => {
-    stageIntro.classList.add("finished");
-    document.body.classList.add("archive-revealed");
-  }, 2450);
-}
-
 loadTickets();
