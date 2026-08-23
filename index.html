@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#08070d" />
+  <title>Magic Concert Archive</title>
+  <meta name="description" content="A floating magical library of concert memories." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <div class="ambient ambient-a"></div>
+    <div class="ambient ambient-b"></div>
+    <div class="dust" id="dust" aria-hidden="true"></div>
+
+    <header class="topbar">
+      <div class="brand">
+        <span class="brand-mark">✦</span>
+        <span>Magic Concert Archive</span>
+      </div>
+      <div class="counter"><span id="ticketCount">3</span> memories</div>
+    </header>
+
+    <main class="library" id="library">
+      <section class="hero-copy">
+        <p class="eyebrow">A PERSONAL CONCERT LIBRARY</p>
+        <h1>Every ticket<br><em>keeps a little magic.</em></h1>
+        <p class="intro">Chạm vào một tấm vé để mở lại ký ức.</p>
+      </section>
+
+      <div class="shelf shelf-top" aria-hidden="true"></div>
+      <div class="shelf shelf-bottom" aria-hidden="true"></div>
+      <div class="book-glow book-glow-a" aria-hidden="true"></div>
+      <div class="book-glow book-glow-b" aria-hidden="true"></div>
+
+      <section class="card-field" aria-label="Concert tickets">
+        <button class="ticket-card card-one" data-ticket="0" aria-label="Mở vé Let's Never Give A...">
+          <span class="card-aura"></span>
+          <span class="card-frame"><img src="./ticket-pink.jpg" alt="Concert ticket, pink artwork" /></span>
+          <span class="card-caption"><b>27 Aug</b><small>Party Night</small></span>
+        </button>
+
+        <button class="ticket-card card-two" data-ticket="1" aria-label="Mở vé Anh Trai Vượt Ngàn Chông Gai">
+          <span class="card-aura"></span>
+          <span class="card-frame"><img src="./ticket-anh-trai.jpg" alt="Concert ticket Anh Trai Vượt Ngàn Chông Gai 2026" /></span>
+          <span class="card-caption"><b>17 Oct</b><small>Anh Trai Vượt Ngàn Chông Gai</small></span>
+        </button>
+
+        <button class="ticket-card card-three" data-ticket="2" aria-label="Mở vé Giữa Một Vạn Tour">
+          <span class="card-aura"></span>
+          <span class="card-frame"><img src="./ticket-phung-khanh-linh.jpg" alt="Concert ticket Giữa Một Vạn Tour, Phùng Khánh Linh" /></span>
+          <span class="card-caption"><b>17 Oct</b><small>Giữa Một Vạn Tour</small></span>
+        </button>
+      </section>
+
+      <div class="hint" aria-hidden="true"><span>↖</span> move to explore</div>
+    </main>
+  </div>
+
+  <div class="modal" id="ticketModal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <button class="modal-backdrop" data-close aria-label="Đóng"></button>
+    <article class="memory-panel">
+      <button class="close-btn" data-close aria-label="Đóng">×</button>
+      <div class="memory-image-wrap">
+        <img id="modalImage" alt="" />
+        <div class="image-shine"></div>
+      </div>
+      <div class="memory-copy">
+        <p class="eyebrow" id="modalEyebrow">CONCERT MEMORY</p>
+        <h2 id="modalTitle"></h2>
+        <p class="memory-date" id="modalDate"></p>
+        <p class="memory-note" id="modalNote"></p>
+        <div class="memory-tags" id="modalTags"></div>
+      </div>
+    </article>
+  </div>
+
+  <script src="./app.js"></script>
+</body>
+</html>
