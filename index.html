@@ -10,11 +10,17 @@
   <meta name="description" content="A floating magical library of concert memories." />
   <link rel="manifest" href="./manifest.webmanifest" />
   <link rel="icon" href="./magic-ticket-icon.svg" type="image/svg+xml" />
+  <script>
+    /* Detect installed PWA before CSS paints, preventing desktop-to-app layout flash. */
+    if (window.matchMedia('(display-mode: standalone)').matches) {
+      document.documentElement.classList.add('pwa-standalone');
+    }
+  </script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="./styles.css?v=42" />
-  <link rel="stylesheet" href="./pwa.css?v=1" />
+  <link rel="stylesheet" href="./pwa.css?v=3" />
 </head>
 <body>
 
@@ -181,6 +187,6 @@
 
   <script src="./config.js"></script>
   <script src="./app.js?v=42"></script>
-  <script src="./pwa.js?v=1"></script>
+  <script src="./pwa.js?v=3"></script>
 </body>
 </html>
