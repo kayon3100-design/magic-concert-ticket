@@ -33,12 +33,16 @@ function renderTickets() {
     const col = i % 4;
     const row = Math.floor(i / 4);
     const positions = [
-      `right:${5 + (row%2)*4}%;top:${14 + (row%3)*22}%;`,
-      `right:${27 + (row%2)*5}%;bottom:${12 + (row%3)*18}%;`,
-      `left:${34 + (row%2)*5}%;top:${44 + (row%2)*13}%;`,
-      `left:${5 + (row%3)*7}%;bottom:${8 + (row%2)*22}%;`
+      `right:${5 + (row%2)*5}%;top:${12 + (row%3)*21}%;`,
+      `right:${29 + (row%2)*6}%;bottom:${10 + (row%3)*17}%;`,
+      `left:${35 + (row%2)*6}%;top:${43 + (row%2)*12}%;`,
+      `left:${5 + (row%3)*8}%;bottom:${8 + (row%2)*20}%;`
     ];
-    return `<button class="ticket-card" style="${positions[col]}--float-delay:-${(i*1.35)%6}s;--rot:${[-5,2,-2,4][col]}deg" data-index="${i}" aria-label="Mở vé ${escapeHtml(t.title)}">
+    const dx = [-58, 46, -38, 64][col] + (row % 3) * 9;
+    const dy = [34, -42, 52, -30][col] + (row % 2) * 12;
+    const drift = [17, 21, 19, 24][col] + (row % 3);
+    const scale = [0.94, 1.03, 0.98, 0.91][col];
+    return `<button class="ticket-card" style="${positions[col]}--float-delay:-${(i*2.15)%12}s;--rot:${[-6,3,-2,5][col]}deg;--dx:${dx}px;--dy:${dy}px;--drift:${drift}s;--card-scale:${scale}" data-index="${i}" aria-label="Mở vé ${escapeHtml(t.title)}">
       <span class="card-aura"></span><span class="card-frame"><img src="${escapeHtml(t.image)}" alt="${escapeHtml(t.title)}" loading="lazy"></span>
       <span class="card-caption"><b>${escapeHtml(shortDate(t.date))}</b><small>${escapeHtml(t.title)}</small></span></button>`;
   }).join("");
@@ -109,10 +113,28 @@ async function createTicket(event) {
       const { data: publicData } = db.storage.from(config.bucket || "ticket-images").getPublicUrl(path);
       const { error: insertError } = await db.from("tickets").insert({ ...data, image_url: publicData.publicUrl });
       if (insertError) throw insertError;
-      await loadTickets();
+      await const stageIntro = $("stageIntro");
+if (stageIntro) {
+  requestAnimationFrame(() => stageIntro.classList.add("opening"));
+  window.setTimeout(() => {
+    stageIntro.classList.add("finished");
+    document.body.classList.add("archive-revealed");
+  }, 2450);
+}
+
+loadTickets();
     } else {
       const image = await fileToDataUrl(file);
-      const list = localTickets(); list.push({ id: crypto.randomUUID(), title:data.title, date:data.event_date || "", location:data.location, image, note:data.note, tags:data.tags }); saveLocal(list); await loadTickets();
+      const list = localTickets(); list.push({ id: crypto.randomUUID(), title:data.title, date:data.event_date || "", location:data.location, image, note:data.note, tags:data.tags }); saveLocal(list); await const stageIntro = $("stageIntro");
+if (stageIntro) {
+  requestAnimationFrame(() => stageIntro.classList.add("opening"));
+  window.setTimeout(() => {
+    stageIntro.classList.add("finished");
+    document.body.classList.add("archive-revealed");
+  }, 2450);
+}
+
+loadTickets();
     }
     ticketForm.reset(); imagePreview.hidden = true; uploadLabel.textContent = "＋ Chọn ảnh vé"; formStatus.textContent = "Đã lưu ✦";
     setTimeout(closeAdd, 500);
@@ -145,7 +167,16 @@ async function deleteActiveTicket() {
       if (storageError) console.warn("Ticket row deleted, but image cleanup failed:", storageError);
     }
     closeTicket();
-    await loadTickets();
+    await const stageIntro = $("stageIntro");
+if (stageIntro) {
+  requestAnimationFrame(() => stageIntro.classList.add("opening"));
+  window.setTimeout(() => {
+    stageIntro.classList.add("finished");
+    document.body.classList.add("archive-revealed");
+  }, 2450);
+}
+
+loadTickets();
   } catch (error) {
     console.error(error);
     deleteStatus.textContent = `Không xóa được: ${error.message || "unknown error"}`;
@@ -166,4 +197,13 @@ if (window.matchMedia("(pointer:fine)").matches) {
   }, { passive:true });
 }
 for (let i=0;i<42;i++){const p=document.createElement("i");p.style.left=`${Math.random()*100}%`;p.style.top=`${Math.random()*110}%`;p.style.animationDuration=`${8+Math.random()*15}s`;p.style.animationDelay=`${-Math.random()*16}s`;p.style.setProperty("--drift",`${-40+Math.random()*80}px`);p.style.opacity=`${.15+Math.random()*.55}`;dust.appendChild(p);}
+const stageIntro = $("stageIntro");
+if (stageIntro) {
+  requestAnimationFrame(() => stageIntro.classList.add("opening"));
+  window.setTimeout(() => {
+    stageIntro.classList.add("finished");
+    document.body.classList.add("archive-revealed");
+  }, 2450);
+}
+
 loadTickets();
