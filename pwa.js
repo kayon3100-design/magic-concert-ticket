@@ -4,7 +4,7 @@
   const adminScript=document.createElement('script');adminScript.src='./admin-search.js?v=1';adminScript.defer=true;document.head.appendChild(adminScript);
 
   /* Cinematic magic-card flight: loaded after app.js so it can replace the old flight. */
-  const flightScript=document.createElement('script');flightScript.src='./magic-flight-v2.js?v=2';flightScript.onload=()=>{if(typeof window.magicFlightV2==='function')window.flyTicket=window.magicFlightV2};document.head.appendChild(flightScript);
+  const flightScript=document.createElement('script');flightScript.src='./magic-flight-v2.js?v=3';flightScript.onload=()=>{if(typeof window.magicFlightV2==='function')window.flyTicket=window.magicFlightV2};document.head.appendChild(flightScript);
 
   const isAndroid=/Android/i.test(navigator.userAgent);
   const isStandalone=matchMedia('(display-mode: standalone)').matches;
@@ -17,7 +17,7 @@
     try{if(typeof loadTickets==='function'){await loadTickets();showSyncState('Synced ✦')}}catch(err){console.warn('PWA sync failed',err)}
   };
   if((isAndroid||isStandalone)&&'serviceWorker'in navigator){
-    addEventListener('load',()=>navigator.serviceWorker.register('./service-worker.js').catch(err=>console.warn('SW registration failed',err)));
+    addEventListener('load',()=>navigator.serviceWorker.register('./service-worker.js',{updateViaCache:'none'}).catch(err=>console.warn('SW registration failed',err)));
   }
   if(!isStandalone)return;
   document.documentElement.classList.add('pwa-standalone');
