@@ -3,6 +3,9 @@
   const css=document.createElement('link');css.rel='stylesheet';css.href='./admin-search.css?v=1';document.head.appendChild(css);
   const adminScript=document.createElement('script');adminScript.src='./admin-search.js?v=1';adminScript.defer=true;document.head.appendChild(adminScript);
 
+  /* Cinematic magic-card flight: loaded after app.js so it can replace the old flight. */
+  const flightScript=document.createElement('script');flightScript.src='./magic-flight-v2.js?v=2';flightScript.onload=()=>{if(typeof window.magicFlightV2==='function')window.flyTicket=window.magicFlightV2};document.head.appendChild(flightScript);
+
   const isAndroid=/Android/i.test(navigator.userAgent);
   const isStandalone=matchMedia('(display-mode: standalone)').matches;
   const showSyncState=message=>{
