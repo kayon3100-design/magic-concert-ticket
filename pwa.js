@@ -1,4 +1,8 @@
 (()=>{
+  /* Load shared search/admin layer on web and installed PWA. */
+  const css=document.createElement('link');css.rel='stylesheet';css.href='./admin-search.css?v=1';document.head.appendChild(css);
+  const adminScript=document.createElement('script');adminScript.src='./admin-search.js?v=1';adminScript.defer=true;document.head.appendChild(adminScript);
+
   const isAndroid=/Android/i.test(navigator.userAgent);
   const isStandalone=matchMedia('(display-mode: standalone)').matches;
   const showSyncState=message=>{
@@ -21,7 +25,10 @@
     dock.addEventListener('click',e=>{
       const action=e.target.closest('button')?.dataset.action;if(!action)return;
       if(action==='home')scrollTo({top:0,behavior:'smooth'});
-      if(action==='add')document.getElementById('openAddTicket')?.click();
+      if(action==='add'){
+        if(document.body.dataset.admin==='true')document.getElementById('openAddTicket')?.click();
+        else document.getElementById('adminBtn')?.click();
+      }
       if(action==='sync')refresh();
     });
     document.body.appendChild(dock);
