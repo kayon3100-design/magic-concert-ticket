@@ -34,6 +34,10 @@
       }
       if(action==='sync')refresh();
     });
+    const credit=document.createElement('div');
+    credit.className='pwa-credit';
+    credit.innerHTML='Nội dung được tạo bởi <span aria-hidden="true">💚</span> bởi Ngọc Bích - Nơi lưu trữ kỷ niệm';
+    document.body.appendChild(credit);
     document.body.appendChild(dock);
   });
   addEventListener('focus',refresh);
