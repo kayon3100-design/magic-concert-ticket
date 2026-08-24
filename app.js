@@ -1,8 +1,4 @@
-const seedTickets = [
-  { id:"seed-pink", title:"Let's Never Give A Sh*t", date:"27 Aug", location:"Ho Chi Minh City", image:"./ticket-pink.jpg", note:"Một tấm vé màu hồng, được giữ lại như một mảnh ký ức trong bộ sưu tập concert.", tags:["Concert","HCMC","Memory"] },
-  { id:"seed-anh-trai", title:"Anh Trai Vượt Ngàn Chông Gai 2026", date:"17 Oct 2026", location:"The Global City", image:"./ticket-anh-trai.jpg", note:"Day 1 & Day 2 tại khu vực Phú Long – Bình Trưng và The Global City.", tags:["E-ticket","2026","The Global City"] },
-  { id:"seed-pkl", title:"Giữa Một Vạn Tour · Chapter 5", date:"17 Oct 2026", location:"Nhà Thi Đấu Phú Thọ", image:"./ticket-phung-khanh-linh.jpg", note:"Live experience của Phùng Khánh Linh tại Nhà Thi Đấu Phú Thọ.", tags:["Phùng Khánh Linh","Live","2026"] }
-];
+const seedTickets = [];
 const config=window.MAGIC_ARCHIVE_CONFIG||{};
 const hasSupabase=Boolean(config.supabaseUrl&&config.supabaseAnonKey&&window.supabase);
 const db=hasSupabase?window.supabase.createClient(config.supabaseUrl,config.supabaseAnonKey):null;
@@ -11,7 +7,7 @@ const $=id=>document.getElementById(id);
 const library=$("library"),cardField=$("cardField"),ticketCount=$("ticketCount"),dust=$("dust");
 const ticketModal=$("ticketModal"),addModal=$("addModal"),modalImage=$("modalImage"),modalTitle=$("modalTitle"),modalDate=$("modalDate"),modalNote=$("modalNote"),modalTags=$("modalTags");
 const ticketForm=$("ticketForm"),imageInput=$("ticketImage"),imagePreview=$("imagePreview"),uploadLabel=$("uploadLabel"),formStatus=$("formStatus"),saveTicket=$("saveTicket"),deleteTicketBtn=$("deleteTicketBtn"),deleteStatus=$("deleteStatus");
-function escapeHtml(v=""){return String(v).replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]))}
+function escapeHtml(v=""){return String(v).replace(/[&<>'\"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','\"':'&quot;'}[c]))}
 function shortDate(v){if(!v)return"Memory";const d=new Date(v+(v.length===10?"T00:00:00":""));return Number.isNaN(d.getTime())?v:d.toLocaleDateString("en-GB",{day:"2-digit",month:"short"})}
 function fullDate(t){return[t.date,t.location].filter(Boolean).join(" · ")}
 function seeded(n,salt=0){const x=Math.sin((n+1)*9283.17+salt*71.33)*43758.5453;return x-Math.floor(x)}
