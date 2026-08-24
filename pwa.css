@@ -39,3 +39,16 @@ html.pwa-standalone .pwa-sync-state{position:fixed;z-index:79;right:18px;bottom:
 html.pwa-standalone .pwa-sync-state.show{opacity:1;transform:none}
 @keyframes pwaFloat{0%,100%{translate:0 0;rotate:0deg}50%{translate:0 -7px;rotate:.5deg}}
 @media(max-width:390px){html.pwa-standalone .card-field{gap:20px 10px}html.pwa-standalone .library{padding-inline:10px}}
+
+html.pwa-standalone body{padding-bottom:calc(122px + env(safe-area-inset-bottom))}
+html.pwa-standalone .pwa-credit{
+  position:fixed;z-index:79;left:18px;right:18px;
+  bottom:calc(78px + env(safe-area-inset-bottom));
+  text-align:center;color:rgba(230,226,235,.66);
+  font-size:9px;line-height:1.35;letter-spacing:.035em;
+  pointer-events:none;text-shadow:0 0 14px rgba(69,240,165,.12);
+}
+html.pwa-standalone .pwa-credit span{
+  display:inline-block;margin:0 2px;
+  filter:drop-shadow(0 0 5px rgba(69,240,165,.45));
+}
