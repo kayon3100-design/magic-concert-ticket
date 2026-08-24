@@ -159,8 +159,27 @@ h1 em { color: #c8b8df; font-weight: 500; }
 .card-caption b { color: var(--gold); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; }
 .card-caption small { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 10px; letter-spacing: .04em; }
 
-.hint { position: absolute; left: 50%; bottom: 24px; z-index: 11; transform: translateX(-50%); color: #68616d; font-size: 10px; letter-spacing: .13em; text-transform: uppercase; }
-.hint span { color: var(--gold); }
+.hint {
+  position: absolute;
+  left: 50%;
+  bottom: 22px;
+  z-index: 11;
+  width: max-content;
+  max-width: calc(100% - 32px);
+  transform: translateX(-50%);
+  color: rgba(255,255,255,.48);
+  font-size: clamp(11px, 1vw, 13px);
+  font-weight: 400;
+  font-style: italic;
+  line-height: 1.45;
+  letter-spacing: .025em;
+  text-align: center;
+  text-transform: none;
+  white-space: nowrap;
+}
+.hint strong { color: rgba(255,255,255,.72); font-weight: 600; }
+.hint .footer-heart { color: #62c98b; font-style: normal; filter: drop-shadow(0 0 5px rgba(98,201,139,.22)); }
+.hint .footer-sep { color: rgba(255,255,255,.32); padding: 0 .15em; }
 
 .dust { position: absolute; inset: 0; z-index: 7; pointer-events: none; overflow: hidden; }
 .dust i { position: absolute; width: 2px; height: 2px; border-radius: 50%; background: rgba(238,218,171,.75); box-shadow: 0 0 8px rgba(238,218,171,.85); animation: dustFloat linear infinite; }
@@ -228,7 +247,7 @@ body.modal-open { overflow: hidden; }
   .memory-image-wrap img { max-height: 52svh; }
   .memory-copy { padding: 8px 8px 12px; }
   .memory-copy h2 { font-size: 38px; }
-  .hint { display: none; }
+  .hint { display: block; width: calc(100% - 28px); max-width: 520px; bottom: 14px; font-size: 10px; white-space: normal; }
 }
 
 @media (prefers-reduced-motion: reduce) {
